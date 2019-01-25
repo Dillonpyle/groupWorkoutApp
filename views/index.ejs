@@ -1,0 +1,22 @@
+<% include partials/header %>
+
+    <header>
+    <h2>Welcome to Workout App</h2>
+    <nav>
+      <ul>
+      <h4>Login</h4>
+      <!-- check the  "/login" route and href on line 17 to make sure you have
+       correct route -->
+      <form action="/login/login" method="POST">
+        <input type="email" name="email" placeholder="email"><br>
+        <input type="password" name="password" placeholder="password"><br>
+        <button type="submit">Sign In</button>
+      </form>
+
+      <h4>Dont have an Account?<br>
+      <a href = "/users/new"><button>Sign Up</button></a></h4>
+      </ul>
+    </nav>
+  </header>
+  
+  <% include partials/footer %>
