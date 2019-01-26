@@ -3,8 +3,9 @@
     <h2>Sign Up</h2>
     <nav>
       <ul>
-      <!-- check the  "/signup" and "/home" route to make sure it is correct-->
-      <form action="/signup" method="POST">
+      <!-- ***fixed form action, makes user but bcrypt isnt working.***
+       check "/home" route  (line 13) to make sure it is correct-->
+      <form action="/users" method="POST">
         
         <input type="text" name="username" placeholder="Preferred Username"><br>
         <input type="email" name="email" placeholder="email"><br>
