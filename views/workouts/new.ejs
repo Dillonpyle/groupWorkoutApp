@@ -13,19 +13,19 @@
 
     <!-- checkout the route on next line to make sure it is correct -->
 
-    <form action="/" method="POST">
+    <form action="/workouts" method="POST">
       
-    <!-- <select name="authorId">
-        <%for (let i = 0; i < authors.length; i++) { %>
+     <select name="userId">
+        <%for (let i = 0; i < users.length; i++) { %>
 
-           <option value="<%=authors[i]._id%>"><%=authors[i].name%></option>
+           <option value="<%=users[i]._id%>"><%=users[i].name%></option>
 
-        <% } %>  -->
+        <% } %> 
 
       </select><br/>
       Workout Type:<input type="text" name="workout" /><br/>
-      Variation: <input type="text" name="Variation" /><br/>
-      Reps: <input type="text" name="Reps" /><br/>
+      Variation: <input type="text" name="variation" /><br/>
+      Reps: <input type="text" name="reps" /><br/>
       Weight: <input type="text" name="weight" /><br/>
       <button type="submit">Post Workout</button>
     </form>

@@ -6,12 +6,19 @@ home/index page
 <main>
 <ul>
 <% for(let i = 0; i < users.length; i++){%>
-
     <li>
     <a href="/users/<%=users[i]._id%>">
-    <%=users[i].username%>
+    <%=users[i].username%></a><br>
+
+    <%=users[i].workouts._id%>
+
+
+    <a href="/workouts/new">Add a new Workout</a><br>
+    
     </li>
+
 <%}%>
+
 </ul>
 </main>
 <% include ../partials/footer %>

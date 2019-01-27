@@ -43,6 +43,34 @@ router.get('/:id', (req, res) => {
     })
 })
 
+
+//delete
+router.delete('/:id', (req, res) => {
+    User.findByIdAndRemove(req.params.id, (err, deletedUser) => {
+        const workoutId = [];
+        for (let i = 0; i < deletedUser.workouts.length; i++) {
+            workoutId.push(deletedUser.workouts[i]._id);
+        }
+        Workout.deleteMany({
+                _id: {
+                    $in: workoutIds
+                }
+            },
+            (err, data) => {
+                console.log(`data ${data}`)
+                console.log(`deleted ${deletedUser}`);
+                res.redirect('/users');
+            }
+        )
+    })
+})
+
+
+
+
+
+
+
 // //show for private page
 // router.get('/:id', (req, res) => {
 //     User.findById(req.params.id, (err, foundUser) => {
