@@ -47,9 +47,9 @@ router.get('/:id', (req, res) => {
 //delete
 router.delete('/:id', (req, res) => {
     User.findByIdAndRemove(req.params.id, (err, deletedUser) => {
-        const workoutId = [];
+        const workoutIds = [];
         for (let i = 0; i < deletedUser.workouts.length; i++) {
-            workoutId.push(deletedUser.workouts[i]._id);
+            workoutIds.push(deletedUser.workouts[i]._id);
         }
         Workout.deleteMany({
                 _id: {

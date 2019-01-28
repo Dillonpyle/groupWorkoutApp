@@ -10,12 +10,24 @@ home/index page
     <a href="/users/<%=users[i]._id%>">
     <%=users[i].username%></a><br>
 
-    <%=users[i].workouts._id%>
+    <!--delete button needs to be fixed -->
+    <form action="/workouts/<%=users.id%>?_method=DELETE" method="POST">
+    <button type="submit">Delete resource</button>
+    </form>
+   <!--================================================= -->
 
+   <!--<li> needs to have _id taken out, ideally we would seperate
+   the object out like workout, variation, reps, weight-->
+    <%console.log(`from home page ${users[i].workouts }`)%>
+   <li> <%=JSON.stringify(users[i].workouts)%></li>
+   <!-- ================================================== -->
 
+   <!-- currently only creates workouts for first person no matter
+   what button is pressed, we need it to add to selected person -->
     <a href="/workouts/new">Add a new Workout</a><br>
+    <!--====================================================== -->
     
-    </li>
+    </li> 
 
 <%}%>
 
