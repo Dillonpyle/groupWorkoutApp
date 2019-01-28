@@ -20,7 +20,7 @@ router.post('/registration', async (req, res) => {
         req.session.username = createdUser.username;
         req.session.logged = true;
 
-        res.redirect('/home');
+        res.redirect('/users');
     } catch (err) {
         res.send(err);
     }
