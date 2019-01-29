@@ -7,6 +7,7 @@ const Workout = require('../models/workouts');
 router.get('/', (req, res) => {
     User.find({}, (err, allUsers) => {
         res.render('users/home.ejs', {
+            currentUser: req.session.username,
             users: allUsers
         });
     });

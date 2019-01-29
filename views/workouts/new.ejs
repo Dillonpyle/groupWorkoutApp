@@ -15,14 +15,7 @@
 
     <form action="/workouts" method="POST">
       
-     <select name="userId">
-        <%for (let i = 0; i < users.length; i++) { %>
-
-           <option value="<%=users[i]._id%>"><%=users[i].name%></option>
-
-        <% } %> 
-
-      </select><br/>
+    <select name="userId"></select>
       Workout Type:<input type="text" name="workout" /><br/>
       Variation: <input type="text" name="variation" /><br/>
       Reps: <input type="text" name="reps" /><br/>

@@ -26,11 +26,30 @@ router.get('/new', (req, res) => {
     });
 });
 
+// router.post('/', (req, res) => {
+//     console.log(req.body)
+
+//     User.findById(req.body.userId, (err, foundUser) => {
+//         Workout.create(req.body.userId, (err, createdWorkout) => {
+//             if (err) {
+//                 res.send(err);
+//             } else {
+//                 foundUser.workouts.push(createdWorkout);
+//                 foundUser.save((err, data) => {
+//                     res.redirect('/users')
+//                 });
+//             }
+//         });
+//     });
+// });
+
 router.post('/', (req, res) => {
     console.log(req.body)
 
-    User.findById(req.body.userId, (err, foundUser) => {
-        Workout.create(req.body.userId, (err, createdWorkout) => {
+    User.findById(req.session.userId, (err, foundUser) => {
+        console.log("session id" +
+            req.session.userId);
+        Workout.create(req.session.userId, (err, createdWorkout) => {
             if (err) {
                 res.send(err);
             } else {
