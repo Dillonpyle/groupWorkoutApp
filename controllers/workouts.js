@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            res.render('photos/index.ejs', {
+            res.render('workouts/index.ejs', {
                 workouts: foundWorkouts
             });
         }
@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
     console.log(req.body)
 
     User.findById(req.body.userId, (err, foundUser) => {
-        Workout.create(req.body, (err, createdWorkout) => {
+        Workout.create(req.body.userId, (err, createdWorkout) => {
             if (err) {
                 res.send(err);
             } else {
@@ -42,8 +42,6 @@ router.post('/', (req, res) => {
         });
     });
 });
-
-
 
 
 module.exports = router

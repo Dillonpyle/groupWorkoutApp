@@ -5,30 +5,42 @@ home/index page
 
 <main>
 <ul>
+
 <% for(let i = 0; i < users.length; i++){%>
-    <li>
-    <a href="/users/<%=users[i]._id%>">
-    <%=users[i].username%></a><br>
 
-    <!--delete button needs to be fixed -->
-    <form action="/workouts/<%=users.id%>?_method=DELETE" method="POST">
-    <button type="submit">Delete resource</button>
-    </form>
-   <!--================================================= -->
+<li>
 
-   <!--<li> needs to have _id taken out, ideally we would seperate
-   the object out like workout, variation, reps, weight-->
-    <%console.log(`from home page ${users[i].workouts }`)%>
-   <li> <%=JSON.stringify(users[i].workouts)%></li>
-   <!-- ================================================== -->
+<a href="/users/<%=users[i]._id%>">
+<%=users[i].username%></a><br>
 
-   <!-- currently only creates workouts for first person no matter
-   what button is pressed, we need it to add to selected person -->
-    <a href="/workouts/new">Add a new Workout</a><br>
-    <!--====================================================== -->
-    
-    </li> 
+<!--delete button needs to be fixed -->
+<form action="users/<%=users[i]._id%>?_method=DELETE" method="POST">
+<a href = "/"><button type="submit">Delete Profile</button></a>
+</form>
+<!--================================================= -->
 
+
+
+<!-- currently only creates workouts for first person no matter
+what button is pressed, we need it to add to selected person -->
+<a href="/workouts/new">Add a new Workout</a><br>
+<!--====================================================== -->
+
+<% for(let j = 0; j < users[i].workouts.length; j++){%>
+<!--<li> needs to have _id taken out, ideally we would seperate
+the object out like workout, variation, reps, weight-->
+<%console.log(`from home page ${users[i].workouts }`)%>
+<div>
+<li> <%=JSON.stringify(users[i].workouts[i].workout)%></li>
+<li> <%=JSON.stringify(users[i].workouts[i].variation)%></li>
+<li> <%=JSON.stringify(users[i].workouts[i].weight)%></li>
+<li> <%=JSON.stringify(users[i].workouts[i].reps)%></li>
+</div>
+<!-- ================================================== -->
+<%}%>
+
+</li> 
+ 
 <%}%>
 
 </ul>
