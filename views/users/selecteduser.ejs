@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+<header>
+selected/show page
+</header>
+
+<main>
+<ul>
+<li>Name: <%=user.username%></li>
+
+<%for(let i = 0; i < user.workouts.length; i++){%>
+<li>
+<h3> <%=user.workouts[i].workout%></h3>
+<h4> <%=user.workouts[i].variation%></h4>
+<h4> <%=user.workouts[i].reps%></h4>
+<h4> <%=user.workouts[i].weight%></h4>
+</li>
+<%}%>
+</ul>
+</main>
+
+
+<% include ../partials/footer %>

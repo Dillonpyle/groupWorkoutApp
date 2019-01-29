@@ -1,0 +1,21 @@
+<% include ../partials/header %>
+<header>
+    <h2>Sign Up</h2>
+    <nav>
+      <ul>
+      <!-- ***fixed form action, makes user but bcrypt isnt working.***
+       check "/home" route  (line 13) to make sure it is correct-->
+      <form action="/login/registration" method="POST">
+        
+        <input type="text" name="username" placeholder="Preferred Username"><br>
+        <input type="email" name="email" placeholder="email"><br>
+        <input type="password" name="password" placeholder="password"><br>
+        <a href = "/home"><button type="submit">Sign Up</button></a>
+      </form>
+
+      </ul>
+    </nav>
+  </header>
+  
+
+<% include ../partials/footer %>
