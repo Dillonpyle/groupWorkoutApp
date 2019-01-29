@@ -29,17 +29,17 @@ router.post('/registration', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const foundUser = await User.findOne({
-            username: req.body.username
+            email: req.body.email
         })
         if (foundUser) {
 
             if (bcrypt.compareSync(req.body.password, foundUser.password)) {
                 req.session.message = '';
-                req.session.username = foundUser.username;
+                req.session.email = foundUser.email;
                 req.session.logged = true;
                 console.log(req.session, req.body)
 
-                res.redirect('/profile')
+                res.redirect('/users')
             } else {
                 req.session.message = 'Username or password are incorrect';
                 res.redirect('/')
@@ -64,10 +64,6 @@ router.get('/logout', (req, res) => {
         }
     });
 });
-
-
-
-
 
 
 module.exports = router;

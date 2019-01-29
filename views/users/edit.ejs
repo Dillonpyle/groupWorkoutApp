@@ -1,4 +1,25 @@
 <% include ../partials/header %>
-edit page
+
+    <header>
+
+    <nav>
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+        </ul>
+      </nav>
+
+
+      <h1>Edit Your Info</h1>
+      
+
+      <form action="/users/<%=user._id%>?_method=PUT" method="post">
+      Your New User Name: <input type="text" name="title" value="<%=user.username%>"/><br/>
+    
+        <button type="submit">Update Your Info</button>
+
+    </header>
+    
 
 <% include ../partials/footer %>

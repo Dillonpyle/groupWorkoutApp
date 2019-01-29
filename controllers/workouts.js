@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            res.render('photos/index.ejs', {
+            res.render('workouts/index.ejs', {
                 workouts: foundWorkouts
             });
         }
@@ -42,5 +42,6 @@ router.post('/', (req, res) => {
         });
     });
 });
+
 
 module.exports = router
