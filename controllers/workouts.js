@@ -21,7 +21,8 @@ router.get('/new', (req, res) => {
     User.find({}, (err, allUsers) => {
         console.log(allUsers);
         res.render('workouts/new.ejs', {
-            users: allUsers
+            users: allUsers,
+            userId: req.session.userId
         });
     });
 });
@@ -30,7 +31,8 @@ router.get('/new', (req, res) => {
 //     console.log(req.body)
 
 //     User.findById(req.body.userId, (err, foundUser) => {
-//         Workout.create(req.body.userId, (err, createdWorkout) => {
+//         console.log('foundUser from post route ' + foundUser)
+//         Workout.create(req.body, (err, createdWorkout) => {
 //             if (err) {
 //                 res.send(err);
 //             } else {
@@ -47,9 +49,11 @@ router.post('/', (req, res) => {
     console.log(req.body)
 
     User.findById(req.session.userId, (err, foundUser) => {
-        console.log("session id" +
+
+        console.log("session id " +
             req.session.userId);
-        Workout.create(req.session.userId, (err, createdWorkout) => {
+        console.log('foundUser ' + foundUser)
+        Workout.create(req.body, (err, createdWorkout) => {
             if (err) {
                 res.send(err);
             } else {

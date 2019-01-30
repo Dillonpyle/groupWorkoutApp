@@ -30,6 +30,24 @@ router.post('/', (req, res) => {
     });
 });
 
+
+
+//Adding new edit route
+router.get("/:id/edit", (req, res) => {
+    workouts.findByIdAndUpdate({}, (err, workoutFound) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.render("workouts/edit.ejs", {
+                workouts: workoutFound
+            })
+        }
+    });
+});
+//ends here 
+
+
+
 //show selecteduser page
 router.get('/:id', (req, res) => {
     User.findById(req.params.id, (err, foundUser) => {
