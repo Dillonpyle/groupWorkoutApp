@@ -67,4 +67,26 @@ router.post('/', (req, res) => {
 });
 
 
+//delete route
+router.delete('/:id', (req, res) => {
+    Workout.findByIdAndRemove(req.params.id, (err, deletedWorkout) => {
+        console.log(`deleted workout ${deletedWorkout}`)
+        User.findOne({
+            'workouts._id': req.params.id
+        }, (err, foundUser) => {
+
+            foundUser.workouts.id(req.params.id).remove();
+
+            foundUser.save((err, data) => {
+                if (err) {
+                    res.send(err);
+                    console.log(`foundUser.workouts ${foundUser.workouts}`)
+                } else {
+                    res.redirect('/users');
+                }
+            });
+        });
+    });
+});
+
 module.exports = router

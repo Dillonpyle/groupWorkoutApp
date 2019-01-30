@@ -56,7 +56,8 @@ router.get('/:id', (req, res) => {
             res.send(err)
         } else {
             res.render('users/selecteduser.ejs', {
-                user: foundUser
+                user: foundUser,
+                sessionId: req.session.userId
             });
         }
     })

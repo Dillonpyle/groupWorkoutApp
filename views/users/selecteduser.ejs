@@ -14,11 +14,16 @@ selected/show page
 <h4> <%=user.workouts[i].reps%></h4>
 <h4> <%=user.workouts[i].weight%></h4>
 
-<!--delete button for workout-->
-<form action="<%=user._id%>?_method=DELETE" method="POST">
+<%if(sessionId === user._id){%>
+    <!--delete button for workout-->
+<form action="/workouts/<%=user.workouts[i]._id%>?_method=DELETE" method="POST">
 <a href = "/"><button type="submit">Delete Workout</button></a>
 </form>
 <!--================================================= --></li>
+
+
+
+<h3><a href = "../workouts/edit.ejs">Edit Your Workout</a></h3>
 
 <%}%>
 </ul>
@@ -36,5 +41,8 @@ selected/show page
 what button is pressed, we need it to add to selected person -->
 <a href="/workouts/new">Add a new Workout</a><br>
 <!--====================================================== -->
+
+<%}%>
+
 
 <% include ../partials/footer %>
