@@ -15,14 +15,8 @@
 
     <!-- checkout the route on next line to make sure it is correct -->
 
-    <form action="/workout/<%=workout._id%>?_method=PUT" method="post">
-      
-     <select name="workoutId">
-        <%for (let i = 0; i < users.length; i++) { %>
-
-           <option value="<%=workout[i]._id%>"><%=users[i].name%></option>
-
-        <% } %> 
+    <form action="/workouts/<%=workout._id%>?_method=PUT" method="post">
+    
 
       </select><br/>
       Workout Type:<input type="text" name="workout" /><br/>
