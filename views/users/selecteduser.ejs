@@ -4,9 +4,9 @@ selected/show page
 </header>
 
 <main>
-<ul>
-<li>Name: <%=user.username%></li>
 
+<h2>Name: <%=user.username%></h2>
+<ul>
 <%for(let i = 0; i < user.workouts.length; i++){%>
 <li>
 <h3> <%=user.workouts[i].workout%></h3>
@@ -14,7 +14,7 @@ selected/show page
 <h4> <%=user.workouts[i].reps%></h4>
 <h4> <%=user.workouts[i].weight%></h4>
 
-<%if(sessionId === user._id){%>
+<% if(sessionId.toString() === user._id.toString()){ %>
     <!--delete button for workout-->
 <form action="/workouts/<%=user.workouts[i]._id%>?_method=DELETE" method="POST">
 <a href = "/"><button type="submit">Delete Workout</button></a>
@@ -23,13 +23,13 @@ selected/show page
 
 
 
-<h3><a href = "../workouts/edit.ejs">Edit Your Workout</a></h3>
+<a href = "../workouts/edit.ejs">Edit Your Workout</a>
 
 <%}%>
 </ul>
+<%}%>
 </main>
-
-
+<% if(sessionId.toString() === user._id.toString()){ %>
 <!--delete button-->
 <form action="<%=user._id%>?_method=DELETE" method="POST">
 <a href = "/"><button type="submit">Delete Profile</button></a>
@@ -41,8 +41,8 @@ selected/show page
 what button is pressed, we need it to add to selected person -->
 <a href="/workouts/new">Add a new Workout</a><br>
 <!--====================================================== -->
-
 <%}%>
+
 
 
 <% include ../partials/footer %>
