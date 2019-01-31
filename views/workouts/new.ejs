@@ -1,27 +1,23 @@
 <% include ../partials/header %>
+
+<div class = "newworkout">
 <header>
       <h1>Post New Workout</h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="/">Home</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+      
+</header>
     <main>
 
     <!-- checkout the route on next line to make sure it is correct -->
 
-    <form action="/workouts" method="POST">
+    <form action="/workouts" method="POST" >
       
-      <select name="userId"></select>
-      Workout Type:<input type="text" name="workout" /><br/>
-      Variation: <input type="text" name="variation" /><br/>
-      Reps: <input type="text" name="reps" /><br/>
-      Weight: <input type="text" name="weight" /><br/>
+      
+      Workout Type:<input type="text" name="workout" /><br/><br>
+      Variation: <input type="text" name="variation" /><br/><br>
+      Reps: <input type="text" name="reps" /><br/><br>
+      Weight: <input type="text" name="weight" /><br/><br>
       <button type="submit">Post Workout</button>
-    </form>
+    </form></div>
     </main>
 
 <% include ../partials/footer %>

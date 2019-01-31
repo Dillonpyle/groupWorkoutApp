@@ -1,8 +1,146 @@
-h1 {
-    color: red;
-    font-family: 'Merienda', cursive;
+ul {
+    list-style: none;
+    padding: 0;
 }
 
 .post {
+    border: 1px solid;
+    text-align: center;
+    background: #bdc9c9;
+    margin: 0;
+}
+
+.editanddelete {
+    display: inline-flex;
+    text-align: center;
+}
+
+#loggedUser {
+    color: red;
+    text-transform: capitalize;
+    font-family: 'Merienda', cursive;
+    text-align: right;
+    margin-right: 1em;
+}
+
+#username {
+    text-align: center;
+    border: 1px solid;
+    margin: 0;
+    font-size: 20px;
+    font-family: 'Gabriela', serif;
+    text-transform: capitalize;
+}
+
+#selectedusername {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+#selecteduserworkouts {
     border: 3px solid;
+    text-align: center;
+}
+
+a:hover {
+    text-decoration: none;
+    text-transform: uppercase;
+
+
+}
+
+#addWorkout {
+    color: blue;
+}
+
+#userprofile {
+    color: blue;
+}
+
+/* screen sizes over 700px */
+@media(min-width: 700px) {
+    background-color: #8b2f94;
+    text-align: center;
+
+    #navigation {
+        background-position: center;
+    }
+
+
+    .newworkout {
+        text-align: center;
+        font-family: 'Merienda', cursive;
+        color: #bf80ff;
+    }
+
+    .signup {
+        text-align: center;
+        font-family: 'Merienda', cursive;
+        color: #bf80ff;
+    }
+
+    .editworkout {
+        text-align: center;
+        font-family: 'Merienda', cursive;
+        color: #bf80ff;
+    }
+
+    #username {
+        background: rgb(129, 85, 201);
+        text-align: center;
+    }
+
+    #selectedusername {
+        text-align: right;
+        color: rgb(187, 7, 231);
+        padding-right: 50px;
+    }
+
+    #selecteduserworkouts {
+        text-align: center;
+        font-family: 'Merienda', cursive;
+        color: #bf80ff;
+    }
+
+    #deleteprofile {
+        text-align: center;
+        font-family: 'Merienda', cursive;
+        color: #bf80ff;
+    }
+
+    .editanddelete {
+        text-align: center;
+        color: #bf80ff;
+
+    }
+
+    #userprofile {
+        color: rgb(125, 14, 221);
+    }
+
+    #addWorkout {
+        color: rgb(125, 14, 221);
+    }
+
+    body {
+        background-color: rgb(78, 44, 133);
+    }
+
+    .post {
+        border: 1px solid;
+        text-align: center;
+        background: rgba(147, 20, 238, 0.959);
+        margin: 0;
+    }
+
+    #nav {
+        background-color: rgb(167, 15, 154);
+
+    }
+
+    #homepage {
+        text-align: center;
+
+    }
+
 }
