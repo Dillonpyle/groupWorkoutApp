@@ -1,7 +1,6 @@
 <% include ../partials/header %>
 <header>
-home/index page
-<h1>youre logged in as <%=currentUser%><i class="fa fa-user" aria-hidden="true"></i> </h1>
+<h1 id="username"><%=currentUser%></i> </h1>
 </header>
 
 <main>
@@ -16,17 +15,15 @@ home/index page
 
 
 <% for(let j = 0; j < users[i].workouts.length; j++){%>
-<!--<li> needs to have _id taken out, ideally we would seperate
-the object out like workout, variation, reps, weight-->
 
-<div>
-<%console.log("users[i] form home.ejs " + users[i]);%>
+
+<div class="post">
 <li> <%=JSON.stringify(users[i].workouts[j].workout)%></li>
 <li> <%=JSON.stringify(users[i].workouts[j].variation)%></li>
 <li> <%=JSON.stringify(users[i].workouts[j].weight)%></li>
 <li> <%=JSON.stringify(users[i].workouts[j].reps)%></li>
 </div>
-<!-- ================================================== -->
+
 <%}%>
 
 </li> 

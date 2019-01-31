@@ -9,6 +9,9 @@ const usersController = require('./controllers/users');
 const workoutsController = require('./controllers/workouts');
 
 //middleware
+
+app.use(express.static(__dirname + '/public'));
+
 app.use(session({
     secret: "THIS IS A RANDOM STRING SECTRET",
     resave: false,

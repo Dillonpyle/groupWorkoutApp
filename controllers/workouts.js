@@ -95,26 +95,6 @@ router.put('/:id', (req, res) => {
 });
 
 
-// router.post('/', (req, res) => {
-//     console.log(req.body)
-
-//     User.findById(req.body.userId, (err, foundUser) => {
-//         console.log('foundUser from post route ' + foundUser)
-//         Workout.create(req.body, (err, createdWorkout) => {
-//             if (err) {
-//                 res.send(err);
-//             } else {
-//                 foundUser.workouts.push(createdWorkout);
-//                 foundUser.save((err, data) => {
-//                     res.redirect('/users')
-//                 });
-//             }
-//         });
-//     });
-// });
-
-
-
 
 //delete route
 router.delete('/:id', (req, res) => {
