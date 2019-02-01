@@ -15,7 +15,7 @@
 
 <% if(sessionId.toString() === user._id.toString()){ %>
     <!--delete button for workout-->
-    
+
 <div class = "editanddelete">
 <form action="/workouts/<%=user.workouts[i]._id%>?_method=DELETE" method="POST">
 <a href = "/"><button type="submit"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></button></a>Delete Workout

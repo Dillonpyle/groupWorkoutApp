@@ -54,7 +54,13 @@ a:hover {
 }
 
 #userprofile {
-    color: blue;
+    color: rgb(80, 80, 136);
+}
+
+#loginform {
+    text-align: center;
+    border: 3px solid;
+    background: rgb(80, 80, 136);
 }
 
 /* screen sizes over 700px */

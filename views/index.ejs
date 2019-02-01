@@ -3,22 +3,21 @@
 <div id = "homepage">
     <header>
     <h2>Welcome to Workout App</h2>
-    <nav>
-      <ul>
-      <h4>Login</h4>
       
       <!-- check the  "/login" route and href on line 17 to make sure you have
        correct route -->
+       <div id="loginform">
+       <h4>Login</h4>
       <form action="/login/login" method="POST">
         <input type="email" name="email" placeholder="email"><br><br>
         <input type="password" name="password" placeholder="password"><br><br>
         <a href="/users/profile"><button type="submit">Sign In</button></a><br>
       </form>
-<br><br><br>
+      </div>
+      <br><br>
       <h4>Dont have an Account?</h4><br>
       <a href = "/users/new"><button>Sign Up</button></a>
-      </ul>
-    </nav>
+      
   </header>
   </div>
   <% include partials/footer %>
