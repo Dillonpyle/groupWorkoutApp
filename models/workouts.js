@@ -12,7 +12,8 @@ const workoutSchema = mongoose.Schema({
     },
     weight: {
         type: String
-    }
+    },
+    likes: []
 });
 
 const Workout = mongoose.model('Workout', workoutSchema);

@@ -1,4 +1,4 @@
-require('dotenv').config()
+// require('dotenv').config()
 const express = require("express");
 const app = express();
 require("./db/db");
@@ -15,6 +15,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(session({
     secret: "THIS IS A RANDOM STRING SECTRET",
+    // ^^^ you have an env file somewhere, why aren't you putting this in it
     resave: false,
     saveUninitialized: false
 }));
@@ -38,6 +39,6 @@ app.get("/", (req, res) => {
 })
 
 //server
-app.listen(process.env.PORT, () => {
+app.listen(/*process.env.PORT*/3000, () => {
     console.log('listening on port 3000');
 })
