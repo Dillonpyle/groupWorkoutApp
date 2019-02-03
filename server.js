@@ -5,6 +5,8 @@ require("./db/db");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const session = require('express-session');
+// const multer = require('multer');
+// const fs = require('fs');
 const loginController = require('./controllers/login');
 const usersController = require('./controllers/users');
 const workoutsController = require('./controllers/workouts');
@@ -39,6 +41,6 @@ app.get("/", (req, res) => {
 })
 
 //server
-app.listen(/*process.env.PORT*/3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('listening on port 3000');
 })
