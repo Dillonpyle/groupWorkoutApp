@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Workout = require('../models/workouts');
 const User = require('../models/users');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const fs = require('fs');
 
 //index route 
 router.get('/', (req, res) => {
@@ -27,9 +30,16 @@ router.get('/new', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', upload.single('imageFile'), (req, res) => {
     console.log(req.body)
-
+    const workout = {};
+    workout.image = {};
+    if (req.file) {
+        const path = './uploads' + req.file.filename;
+        workout.image.data = fs.readFileSync(path);
+        workout.image.contentType = req.file.mimetype;
+        fs.unlinkSync(path)
+    };
     User.findById(req.session.userId, (err, foundUser) => {
 
         console.log("session id " +
@@ -124,6 +134,14 @@ router.put('/:id/like/like', async (req, res) => {
     }
 });
 
+// uploading images
+router.get('/:id/upload', async (req, res) => {
+    const workout = await Workout.findById(req.params.id);
+    const uploadImaage = workout.image;
+    res.set('Content-Type', image.contentType);
+    res.send(image.data);
+})
+
 /* 
 
 ==== PS ====
@@ -138,6 +156,7 @@ just a feature to be added, so I don't feel like I should do that for you. If yo
 need any help on it, though, feel free to ask and I can try to help you figure it out.
 
 */
+
 
 //edit route
 router.get('/:id/edit', (req, res) => {

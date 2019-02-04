@@ -13,7 +13,11 @@ const workoutSchema = mongoose.Schema({
     weight: {
         type: String
     },
-    likes: []
+    likes: [],
+    image: {
+        contentType: String,
+        data: Buffer
+    }
 });
 
 const Workout = mongoose.model('Workout', workoutSchema);
