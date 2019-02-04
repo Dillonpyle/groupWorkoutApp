@@ -35,7 +35,7 @@ router.post('/', upload.single('imageFile'), (req, res) => {
     const workout = {};
     workout.image = {};
     if (req.file) {
-        const path = './uploads' + req.file.filename;
+        const path = './uploads/' + req.file.filename;
         workout.image.data = fs.readFileSync(path);
         workout.image.contentType = req.file.mimetype;
         fs.unlinkSync(path)
@@ -96,7 +96,7 @@ router.get('/:id', async (req, res) => {
 
 // like route
 
-router.put('/:id/like/like', async (req, res) => {
+router.put('/:id/like', async (req, res) => {
     try {
         const workout = await Workout.findById(req.params.id)
         // find the logged in user
@@ -122,7 +122,7 @@ router.put('/:id/like/like', async (req, res) => {
             // if they have not liked, they have the button available
             // by pressing the button, they're liking the workout
             // we push them into the workout.likes array, so they can't like again
-            workout.likes.push(currentUser._id);
+            workout.likes.push(loggedInUser._id);
             // save the database result so your db knows this happened
             // once you leave the route, the information is lost if you don't do this
             await workout.save();
@@ -137,9 +137,12 @@ router.put('/:id/like/like', async (req, res) => {
 // uploading images
 router.get('/:id/upload', async (req, res) => {
     const workout = await Workout.findById(req.params.id);
-    const uploadImaage = workout.image;
-    res.set('Content-Type', image.contentType);
-    res.send(image.data);
+    console.log(req.params.id, 'this should be the workout id');
+    const uploadImage = workout.image;
+    console.log(uploadImage, 'this should be the encoded image');
+    res.set('Content-Type', uploadImage.contentType);
+    res.send(uploadImage.data);
+    console.log('end of route') 
 })
 
 /* 
