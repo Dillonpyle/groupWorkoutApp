@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const session = require('express-session');
 const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const fs = require('fs');
 const loginController = require('./controllers/login');
 const usersController = require('./controllers/users');

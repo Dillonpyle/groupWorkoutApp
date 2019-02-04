@@ -135,13 +135,14 @@ router.put('/:id/like', async (req, res) => {
 });
 
 // uploading images
-router.get('/:id/upload', async (req, res) => {
+router.get('/:id/image', async (req, res) => {
     const workout = await Workout.findById(req.params.id);
     console.log(req.params.id, 'this should be the workout id');
-    const uploadImage = workout.image;
-    console.log(uploadImage, 'this should be the encoded image');
-    res.set('Content-Type', uploadImage.contentType);
-    res.send(uploadImage.data);
+    const image = workout.image;
+    console.log(image, 'this should be the encoded image');
+    res.set('Content-Type', image.contentType);
+    res.send(image.data);
+    console.log(image.data, 'this should be image data');
     console.log('end of route') 
 })
 
