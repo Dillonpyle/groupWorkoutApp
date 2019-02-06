@@ -4,146 +4,175 @@ const Workout = require('../models/workouts');
 const User = require('../models/users');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
-const fs = require('fs');
+const fs = require('file-system');
 
 //index route 
 router.get('/', (req, res) => {
-    Workout.find({}, (err, foundWorkouts) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.render('workouts/index.ejs', {
-                workouts: foundWorkouts
-            });
-        }
-    });
+	Workout.find({}, (err, foundWorkouts) => {
+		if (err) {
+			res.send(err);
+		} else {
+			res.render('workouts/index.ejs', {
+				workouts: foundWorkouts
+			});
+		}
+	});
 });
 
 //create route
 router.get('/new', (req, res) => {
-    User.find({}, (err, allUsers) => {
-        console.log(allUsers);
-        res.render('workouts/new.ejs', {
-            users: allUsers,
-            userId: req.session.userId
-        });
-    });
+	User.find({}, (err, allUsers) => {
+		console.log(allUsers);
+		res.render('workouts/new.ejs', {
+			users: allUsers,
+			userId: req.session.userId
+		});
+	});
 });
 
-router.post('/', upload.single('imageFile'), (req, res) => {
-    console.log(req.body)
-    const workout = {};
-    workout.image = {};
-    if (req.file) {
-        const path = './uploads/' + req.file.filename;
-        workout.image.data = fs.readFileSync(path);
-        workout.image.contentType = req.file.mimetype;
-        fs.unlinkSync(path)
-    };
-    User.findById(req.session.userId, (err, foundUser) => {
+router.post('/', upload.single('imageFile'), async (req, res) => {
+	/* these are individual database entries for each property of your model
+	this is necessary with multer and image uploads because req.body does not
+	actually contain the image data that we are putting in
+	if you don't do this, the image data won't translate and you'll end up
+	with a blank spot in place of the image you want uploaded */
+	const workout = {};
+	workout.workout = req.body.workout;
+	workout.variation = req.body.variation;
+	workout.reps = req.body.reps;
+	workout.weight = req.body.weight;
+	workout.image = {};
+	/* the image data is contained in req.file, so if there is no req.file, they
+	did not upload an image and there's no need to run this code
+	this is all based heavily on multer's documentation, so you can read it
+	and understand what exactly is going on */
+	if (req.file) {
+		const path = './uploads/' + req.file.filename;
+		workout.image.data = fs.readFileSync(path);
+		workout.image.contentType = req.file.mimetype;
+		fs.unlinkSync(path)
+	};
+	try {
+		/* your callbacks are commented out below, so you can still use them if
+		you want, but you have to ensure that everything happens in the order
+		that it is supposed to. A big image file (I'm a photographer and my
+		biggest ones are over 25mb apiece) could take a long time to upload
+		and then throw the code out of whack if you aren't careful */
+		const foundUser = await User.findById(req.session.userId);
+		const newWorkout = await Workout.create(workout);
+		foundUser.workouts.push(newWorkout);
+		await foundUser.save();
+		res.redirect('/users');
+	} catch (err) {
+		res.send(err)
+	}
+	// console.log(req.file, 'this is req.file')
+	// User.findById(req.session.userId, (err, foundUser) => {
 
-        console.log("session id " +
-            req.session.userId);
-        console.log('foundUser ' + foundUser)
-        Workout.create(req.body, (err, createdWorkout) => {
-            if (err) {
-                res.send(err);
-            } else {
-                foundUser.workouts.push(createdWorkout);
-                foundUser.save((err, data) => {
-                    res.redirect('/users')
-                });
-            }
-        });
-    });
+	// 	console.log("session id " +
+	// 		req.session.userId);
+	// 	console.log('foundUser ' + foundUser)
+	// 	Workout.create(req.body, req.file, (err, createdWorkout) => {
+	// 		if (err) {
+	// 			res.send(err);
+	// 		} else {
+	// 			foundUser.workouts.push(createdWorkout);
+	// 			foundUser.save((err, data) => {
+	// 				res.redirect('/users')
+	// 			});
+	// 		}
+	// 	});
+	// });
 });
 
 // show
 
 router.get('/:id', async (req, res) => {
-    // I prefer writing async, but this can all be done with callbacks too if you're more comfortable with those
-    try {
-        // find the workout by its id
-        const workout = await Workout.findById(req.params.id);
-        // once that is done, find the user currently logged in by their username
-        // you could probably also find them by their id if you prefer
-        const loggedInUser = await User.findOne({ username: req.session.username });
-        // by default, a user has not liked a workout
-        let liked = false;
-        if (loggedInUser) {
-            // the users that liked a workout are stored in an array on the model
-            // the mechanics for putting the users in that array are in the next route
-            for (let i = 0; i < workout.likes.length; i++) {
-                // if they are in the array already, they can't like a workout again
-                if (workout.likes[i].toString() === loggedInUser._id.toString()) {
-                    liked = true;
-                }
-            }
-        } else {
-            // if you are not logged in, you cannot like
-            // (if you do not include this, loggedInUser could return null and you would get an error)
-            liked = true
-        };
-        res.render('workouts/show.ejs', {
-            workout: workout,
-            user: loggedInUser,
-            liked: liked
-        })
-    } catch (err) {
-        res.send(err)
-    }
+	// I prefer writing async, but this can all be done with callbacks too if you're more comfortable with those
+	try {
+		// find the workout by its id
+		const workout = await Workout.findById(req.params.id);
+		// once that is done, find the user currently logged in by their username
+		// you could probably also find them by their id if you prefer
+		const loggedInUser = await User.findOne({ username: req.session.username });
+		// by default, a user has not liked a workout
+		let liked = false;
+		if (loggedInUser) {
+			// the users that liked a workout are stored in an array on the model
+			// the mechanics for putting the users in that array are in the next route
+			for (let i = 0; i < workout.likes.length; i++) {
+				// if they are in the array already, they can't like a workout again
+				if (workout.likes[i].toString() === loggedInUser._id.toString()) {
+					liked = true;
+				}
+			}
+		} else {
+			// if you are not logged in, you cannot like
+			// (if you do not include this, loggedInUser could return null and you would get an error)
+			liked = true
+		};
+		res.render('workouts/show.ejs', {
+			workout: workout,
+			user: loggedInUser,
+			liked: liked
+		})
+	} catch (err) {
+		res.send(err)
+	}
 });
 
 // like route
 
 router.put('/:id/like', async (req, res) => {
-    try {
-        const workout = await Workout.findById(req.params.id)
-        // find the logged in user
-        const loggedInUser = await User.findOne({ username: req.session.username });
-        // like before, voted defaults to false
-        let liked = false;
-        // if they are logged in
-        if (loggedInUser){
-            for (let i = 0; i < workout.likes.length; i++) {
-                // as before, if they have already liked, they cannot like agaain
-                if (workout.likes[i].toString() === currentUser._id.toString()) {
-                    liked = true;
-                }
-            }
-        } else {
-            // if they are not logged in, they cannot like
-            liked = true;
-        }
-        if (liked) {
-            // if they have liked, redirect them to the workout's show page, which will not show a like button
-            res.redirect(`/workouts/${req.params.id}`)
-        } else {
-            // if they have not liked, they have the button available
-            // by pressing the button, they're liking the workout
-            // we push them into the workout.likes array, so they can't like again
-            workout.likes.push(loggedInUser._id);
-            // save the database result so your db knows this happened
-            // once you leave the route, the information is lost if you don't do this
-            await workout.save();
-            // redirect
-            res.redirect(`/workouts/${req.params.id}`)
-        }
-    } catch (err) {
-        res.send(err)
-    }
+	try {
+		const workout = await Workout.findById(req.params.id)
+		// find the logged in user
+		const loggedInUser = await User.findOne({ username: req.session.username });
+		// like before, voted defaults to false
+		let liked = false;
+		// if they are logged in
+		if (loggedInUser){
+			for (let i = 0; i < workout.likes.length; i++) {
+				// as before, if they have already liked, they cannot like agaain
+				if (workout.likes[i].toString() === currentUser._id.toString()) {
+					liked = true;
+				}
+			}
+		} else {
+			// if they are not logged in, they cannot like
+			liked = true;
+		}
+		if (liked) {
+			// if they have liked, redirect them to the workout's show page, which will not show a like button
+			res.redirect(`/workouts/${req.params.id}`)
+		} else {
+			// if they have not liked, they have the button available
+			// by pressing the button, they're liking the workout
+			// we push them into the workout.likes array, so they can't like again
+			workout.likes.push(loggedInUser._id);
+			// save the database result so your db knows this happened
+			// once you leave the route, the information is lost if you don't do this
+			await workout.save();
+			// redirect
+			res.redirect(`/workouts/${req.params.id}`)
+		}
+	} catch (err) {
+		res.send(err)
+	}
 });
 
 // uploading images
-router.get('/:id/image', async (req, res) => {
-    const workout = await Workout.findById(req.params.id);
-    console.log(req.params.id, 'this should be the workout id');
-    const image = workout.image;
-    console.log(image, 'this should be the encoded image');
-    res.set('Content-Type', image.contentType);
-    res.send(image.data);
-    console.log(image.data, 'this should be image data');
-    console.log('end of route') 
+router.get('/:id/upload', async (req, res) => {
+	const workout = await Workout.findById(req.params.id);
+	console.log(req.params.id, 'this should be the workout id');
+	// console.log(req.file, 'this is req.body')
+	const image = await workout.image;
+	console.log(image, 'this should be the encoded image');
+	res.set('Content-Type', image.contentType);
+	res.send(image.data);
+	console.log(image.data, 'this should be image data');
+	// console.log(req.body);
+	console.log('end of route') 
 })
 
 /* 
@@ -164,72 +193,72 @@ need any help on it, though, feel free to ask and I can try to help you figure i
 
 //edit route
 router.get('/:id/edit', (req, res) => {
-    Workout.findById(req.params.id, (err, foundWorkout) => {
+	Workout.findById(req.params.id, (err, foundWorkout) => {
 
-        User.find({}, (err, allUsers) => {
-            // Finding the author that wrote the article we are trying to edit
-            User.findOne({
-                'workouts._id': req.params.id
-            }, (err, workoutUser) => {
+		User.find({}, (err, allUsers) => {
+			// Finding the author that wrote the article we are trying to edit
+			User.findOne({
+				'workouts._id': req.params.id
+			}, (err, workoutUser) => {
 
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.render('workouts/edit.ejs', {
-                        workout: foundWorkout,
-                        users: allUsers,
-                        workoutUser: workoutUser
-                    });
-                }
-            });
-        });
-    });
+				if (err) {
+					res.send(err);
+				} else {
+					res.render('workouts/edit.ejs', {
+						workout: foundWorkout,
+						users: allUsers,
+						workoutUser: workoutUser
+					});
+				}
+			});
+		});
+	});
 });
 
 router.put('/:id', (req, res) => {
 
-    Workout.findByIdAndUpdate(req.params.id, req.body, {
-        new: true
-    }, (err, updatedWorkout) => {
+	Workout.findByIdAndUpdate(req.params.id, req.body, {
+		new: true
+	}, (err, updatedWorkout) => {
 
-        User.findOne({
-            'workouts._id': req.params.id
-        }, (err, foundUser) => {
-            console.log(foundUser)
-            foundUser.workouts.id(req.params.id).remove();
-            foundUser.workouts.push(updatedWorkout);
-            foundUser.save((err, data) => {
-                res.render('users/selecteduser.ejs', {
-                    user: foundUser,
-                    sessionId: req.session.userId
-                });
-            });
-        });
-    });
+		User.findOne({
+			'workouts._id': req.params.id
+		}, (err, foundUser) => {
+			console.log(foundUser)
+			foundUser.workouts.id(req.params.id).remove();
+			foundUser.workouts.push(updatedWorkout);
+			foundUser.save((err, data) => {
+				res.render('users/selecteduser.ejs', {
+					user: foundUser,
+					sessionId: req.session.userId
+				});
+			});
+		});
+	});
 });
 
 
 
 //delete route
 router.delete('/:id', (req, res) => {
-    Workout.findByIdAndRemove(req.params.id, (err, deletedWorkout) => {
-        console.log(`deleted workout ${deletedWorkout}`)
-        User.findOne({
-            'workouts._id': req.params.id
-        }, (err, foundUser) => {
+	Workout.findByIdAndRemove(req.params.id, (err, deletedWorkout) => {
+		console.log(`deleted workout ${deletedWorkout}`)
+		User.findOne({
+			'workouts._id': req.params.id
+		}, (err, foundUser) => {
 
-            foundUser.workouts.id(req.params.id).remove();
+			foundUser.workouts.id(req.params.id).remove();
 
-            foundUser.save((err, data) => {
-                if (err) {
-                    res.send(err);
-                    console.log(`foundUser.workouts ${foundUser.workouts}`)
-                } else {
-                    res.redirect('/users');
-                }
-            });
-        });
-    });
+			foundUser.save((err, data) => {
+				if (err) {
+					res.send(err);
+					console.log(`foundUser.workouts ${foundUser.workouts}`)
+				} else {
+					res.redirect('/users');
+				}
+			});
+		});
+	});
 });
 
 module.exports = router
