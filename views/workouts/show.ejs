@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<!-- this button will only appear if you haven't liked before -->
+	<p id="likes">Likes: <%= workout.likes.length %></p>
+	<% if (liked === false) { %>
+		<form action="/workouts/<%= workout._id %>/like?_method=PUT" method="POST">
+			<button>Like This Workout</button>
+		</form>
+	<% } %>
+	<img src="/workouts/<%= workout._id %>/upload">
+
+
+</body>
+</html>

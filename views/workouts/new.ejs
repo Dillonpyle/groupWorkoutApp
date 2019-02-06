@@ -9,13 +9,14 @@
 
     <!-- checkout the route on next line to make sure it is correct -->
 
-    <form action="/workouts" method="POST" >
+    <form action="/workouts" method="POST" enctype="multipart/form-data">
       
       
       Workout Type:<input type="text" name="workout" /><br/><br>
       Variation: <input type="text" name="variation" /><br/><br>
       Reps: <input type="text" name="reps" /><br/><br>
       Weight: <input type="text" name="weight" /><br/><br>
+      Image: <input class="imageFile" type="file" name="imageFile" /><br><br>
       <button type="submit">Post Workout</button>
     </form></div>
     </main>

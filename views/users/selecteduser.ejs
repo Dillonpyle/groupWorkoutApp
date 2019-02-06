@@ -11,6 +11,7 @@
 <h4> Variation: <%=user.workouts[i].variation%></h4>
 <h4> Reps: <%=user.workouts[i].reps%></h4>
 <h4> Weight: <%=user.workouts[i].weight%></h4>
+<h4> Likes: <%= user.workouts[i].likes.length %></h4>
 </div>
 
 <% if(sessionId.toString() === user._id.toString()){ %>
